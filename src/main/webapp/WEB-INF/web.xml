@@ -93,12 +93,12 @@
 	<!-- 한 페이지에 출력할 게시물의 갯수 설정 : 10개씩 출력 -->
 	<context-param>
 	  	<param-name>POSTS_PER_PAGE</param-name>
-	  	<param-value>10</param-value>
+	  	<param-value>2</param-value>
 	  </context-param>
 	  <!-- 한 블럭당 출력할 페이지번호의 갯수 설정 : 5페이지씩 출력 -->
 	 <context-param>
 	 	<param-name>PAGES_PER_BLOCK</param-name>
-	 	<param-value>5</param-value>
+	 	<param-value>2</param-value>
 	 </context-param>
  
  	<!-- 서블릿 매핑하기 -->
@@ -121,7 +121,7 @@
  	
  	<!-- 서블릿 매핑2 : 서블릿에서 즉시 요청에 대한 결과를 출력한다.
  		JSP로 포워드하지 않는다. -->
- 	 	<servlet>
+ 	<servlet>
  		<servlet-name>DirectServletPrint</servlet-name>
  		<servlet-class>servlet.DirectServletPrint</servlet-class>
  	</servlet>
@@ -149,6 +149,33 @@
 	</servlet-mapping>
  	
  	
- 	
+ 	<!-- 모델2 방식의 게시판을 위한 서블릿 매핑 -->
+ 	<!-- 목록 -->
+ 	<servlet>
+ 		<servlet-name>MVCBoardList</servlet-name>
+ 		<servlet-class>model2.mvcboard.ListController</servlet-class>
+ 	</servlet>
+ 	<servlet-mapping>
+ 		<servlet-name>MVCBoardList</servlet-name>
+ 		<url-pattern>/mvcboard/list.do</url-pattern>
+ 	</servlet-mapping>
+ 	<!-- 글쓰기 -->
+ 	<!-- 모델2(서블릿방식) 게시판의 글쓰기는 파일첨부 기능이 있으므로
+ 	multipart에 대한 설정을 추가해야한다. "파일업로드" 챕터에서는 어노테이션
+ 	을 통해 설정했지만, 해당 챕터에서는 web.xml에 설정한다. -->
+ 	<servlet>
+ 		<servlet-name>MVCBoardWrite</servlet-name>
+ 		<servlet-class>model2.mvcboard.WriteController</servlet-class>
+ 		<!-- 개별파일의 최대크기와 전체파일의 최대크기를 아래와 같이 설정
+ 		하면 된다. -->
+ 		<multipart-config>
+ 			<max-file-size>1048576</max-file-size> <!-- 1MB -->
+ 			<max-request-size>10485760</max-request-size> <!-- 10MB -->
+ 		</multipart-config>
+ 	</servlet>
+ 	<servlet-mapping>
+ 		<servlet-name>MVCBoardWrite</servlet-name>
+ 		<url-pattern>/mvcboard/write.do</url-pattern>
+ 	</servlet-mapping>	
  	
 </web-app>
